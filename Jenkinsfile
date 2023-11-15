@@ -10,15 +10,15 @@ node {
     stage('Build image') {
     /* This builds the actual image using BuildKit and buildx */
     script {
-        def buildx = docker.buildx()
-
-        // Create and use the buildx builder instance
-        buildx.builder.create("--use")
-
-        // Build the Docker image using the buildx step
-        app = docker.buildx("sam2636/hellonode").push()
+        // Build the Docker image using the Docker CLI and buildx
+        sh """
+        docker buildx create --use
+        docker buildx build --platform linux/amd64,linux/arm64 -t sam2636/hellonode .
+        docker buildx imagetools create sam2636/hellonode --tag sam2636/hellonode:latest
+        """
     }
 }
+
 
 
 
