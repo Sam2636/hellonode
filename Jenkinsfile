@@ -7,18 +7,12 @@ node {
         checkout scm
     }
 
-    stage('Build image') {
-    /* This builds the actual image using BuildKit and specifies platforms */
-    script {
-        // Set the environment variable to enable BuildKit
-        env.DOCKER_BUILDKIT = "1"
-
-        // Build the Docker image using the Docker CLI and specify platforms
-        sh """
-        docker buildx build -t sam2636/hellonode .
-        """
+   
+    stage('Build'){
+    steps{
+    sh 'sudo docker build . -t sam2636/sam2636-hellonode:1'
     }
-}
+    }
 
 
 
