@@ -10,8 +10,12 @@ node {
     stage('Build image') {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
-
+         // Create and use the buildx builder instance
+        docker.buildx().create("--use")
+            
+            // Build the Docker image using the buildx builder
         app = docker.build("sam2636/hellonode")
+
     }
 
     stage('Test image') {
