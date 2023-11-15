@@ -8,19 +8,18 @@ node {
     }
 
     stage('Build image') {
-    /* This builds the actual image using BuildKit and experimental features */
+    /* This builds the actual image using BuildKit and specifies platforms */
     script {
         // Set the environment variable to enable BuildKit
-        env.DOCKER_CLI_EXPERIMENTAL = "enabled"
+        env.DOCKER_BUILDKIT = "1"
 
-        // Build the Docker image using the Docker CLI and experimental features
+        // Build the Docker image using the Docker CLI and specify platforms
         sh """
-        docker build --platform linux/amd64,linux/arm64 -t sam2636/hellonode .
-        docker manifest create sam2636/hellonode:latest --amend sam2636/hellonode:amd64 --amend sam2636/hellonode:arm64
-        docker manifest push sam2636/hellonode:latest
+        docker build --platform=amd64,arm64 -t sam2636/hellonode .
         """
     }
 }
+
 
 
 
