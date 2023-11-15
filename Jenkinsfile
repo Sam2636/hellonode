@@ -15,7 +15,7 @@ node {
 
         // Build the Docker image using the Docker CLI and specify platforms
         sh """
-        docker buildx build --platform=amd64,arm64 -t sam2636/hellonode .
+        docker buildx build -t sam2636/hellonode .
         """
     }
 }
