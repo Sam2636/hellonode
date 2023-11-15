@@ -10,16 +10,13 @@ node {
     stage('Build image') {
     /* This builds the actual image using BuildKit and buildx */
     script {
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            // Create and use the buildx builder instance
-            def buildx = docker.buildx()
-            buildx.create("--use")
-            
-            // Build the Docker image using the buildx builder
-            app = buildx.build("sam2636/hellonode")
-        }
+        def buildx = docker.buildx()
+        buildx.builder.create("--use")
+
+        app = docker.image("sam2636/hellonode").push()
     }
-    }
+}
+
 
 
 
