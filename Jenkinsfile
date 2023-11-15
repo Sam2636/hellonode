@@ -8,21 +8,20 @@ node {
     }
 
     stage('Build image') {
-    /* This builds the actual image using BuildKit and buildx */
+    /* This builds the actual image using BuildKit and experimental features */
     script {
         // Set the environment variable to enable BuildKit
-        env.DOCKER_CLI_AGGREGATE = "1"
+        env.DOCKER_CLI_EXPERIMENTAL = "enabled"
 
-        // Build the Docker image using the Docker CLI
+        // Build the Docker image using the Docker CLI and experimental features
         sh """
-        docker buildx create
-        docker buildx use default
-        docker buildx inspect default --bootstrap
-        docker buildx build --platform linux/amd64,linux/arm64 -t sam2636/hellonode .
-        docker buildx imagetools create sam2636/hellonode --tag sam2636/hellonode:latest
+        docker build --platform linux/amd64,linux/arm64 -t sam2636/hellonode .
+        docker manifest create sam2636/hellonode:latest --amend sam2636/hellonode:amd64 --amend sam2636/hellonode:arm64
+        docker manifest push sam2636/hellonode:latest
         """
     }
 }
+
 
 
 
