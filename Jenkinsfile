@@ -11,11 +11,15 @@ node {
     /* This builds the actual image using BuildKit and buildx */
     script {
         def buildx = docker.buildx()
+
+        // Create and use the buildx builder instance
         buildx.builder.create("--use")
 
-        app = docker.image("sam2636/hellonode").push()
+        // Build the Docker image using the buildx step
+        app = docker.buildx("sam2636/hellonode").push()
     }
 }
+
 
 
 
