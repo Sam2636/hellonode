@@ -10,14 +10,20 @@ node {
     stage('Build image') {
     /* This builds the actual image using BuildKit and buildx */
     script {
-        // Build the Docker image using the Docker CLI and buildx
+        // Set the environment variable to enable BuildKit
+        env.DOCKER_CLI_AGGREGATE = "1"
+
+        // Build the Docker image using the Docker CLI
         sh """
-        docker buildx create --use
+        docker buildx create
+        docker buildx use default
+        docker buildx inspect default --bootstrap
         docker buildx build --platform linux/amd64,linux/arm64 -t sam2636/hellonode .
         docker buildx imagetools create sam2636/hellonode --tag sam2636/hellonode:latest
         """
     }
 }
+
 
 
 
